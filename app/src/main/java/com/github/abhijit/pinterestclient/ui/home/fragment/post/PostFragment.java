@@ -54,8 +54,6 @@ public class PostFragment extends Fragment implements Contract.View {
         super.onActivityCreated(savedInstanceState);
         String pinId = getArguments().getString(PIN_ID);
         pinTitle.setText(pinId);
-
-
     }
 
     @Override

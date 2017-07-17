@@ -17,7 +17,7 @@ import io.reactivex.observers.DisposableMaybeObserver;
 
 public class PinsPresenter implements Contract.Presenter {
 
-    public static final String TAG = PinsPresenter.class.getSimpleName();
+    private static final String TAG = PinsPresenter.class.getSimpleName();
 
     private PinterestClient client;
     private SchedulerProvider schedulerProvider;
@@ -26,7 +26,7 @@ public class PinsPresenter implements Contract.Presenter {
 
     private Contract.View view;
 
-    public PinsPresenter(Contract.View view) {
+    PinsPresenter(Contract.View view) {
         this.view = view;
         client = ClientInjector.getClient(view.getContext());
         schedulerProvider = SchedulerInjector.getScheduler();
@@ -38,12 +38,12 @@ public class PinsPresenter implements Contract.Presenter {
 
     @Override
     public void subscribe() {
-        getPins();
+        getPins(view.getBoardId());
     }
 
-    private void getPins() {
+    private void getPins(String boardId) {
         disposable.add(
-                client.getPins()
+                client.getPinsForBoard(boardId)
                         .subscribeOn(schedulerProvider.io())
                         .observeOn(schedulerProvider.ui())
                         .subscribeWith(new DisposableMaybeObserver<List<PDKPin>>(){

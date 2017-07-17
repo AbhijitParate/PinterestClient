@@ -13,6 +13,8 @@ import java.util.List;
 public interface Contract {
 
     interface View extends BaseView<Presenter> {
+        String getBoardId();
+
         void showLoginScreen();
         void showPins(List<PDKPin> pinList);
     }

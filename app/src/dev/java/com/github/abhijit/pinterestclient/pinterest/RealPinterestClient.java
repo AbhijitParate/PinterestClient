@@ -114,7 +114,7 @@ public class RealPinterestClient implements PinterestClient {
 
     @Override
     public Maybe<List<PDKPin>> getPinsForBoard(final String boardId){
-        final String fields = "id,name,description,creator,image,counts,created_at";
+        final String fields = "id,link,creator,image,counts,note,created_at,board,metadata";
 
         return Maybe.create(new MaybeOnSubscribe<List<PDKPin>>() {
             @Override
@@ -167,12 +167,12 @@ public class RealPinterestClient implements PinterestClient {
 
     @Override
     public Maybe<List<PDKPin>> getPins() {
-        final String fields = "id,link,creator,image,counts,note,created_at,board,metadata";
+        final String fields = "id,name,description,creator,image,counts,created_at";
 
         return Maybe.create(new MaybeOnSubscribe<List<PDKPin>>() {
             @Override
             public void subscribe(@NonNull final MaybeEmitter<List<PDKPin>> e) throws Exception {
-                pdkClient.getMyPins(fields, new PDKCallback() {
+                pdkClient.getMyPins(fields, new PDKCallback(){
                     @Override
                     public void onSuccess(PDKResponse response) {
                         super.onSuccess(response);

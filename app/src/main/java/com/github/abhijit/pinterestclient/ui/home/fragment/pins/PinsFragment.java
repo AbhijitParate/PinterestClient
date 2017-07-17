@@ -1,6 +1,7 @@
 package com.github.abhijit.pinterestclient.ui.home.fragment.pins;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -25,7 +26,10 @@ public class PinsFragment extends Fragment
         Contract.View,
         PinsAdapter.OnPinClickListener {
 
+    private static final String BOARD_ID = "BOARD_UID";
     private static final int COLUMNS = 2;
+
+    String boardId;
 
     @BindView(R.id.pinsRecyclerView)
     RecyclerView mRecyclerView;
@@ -35,6 +39,20 @@ public class PinsFragment extends Fragment
     Contract.Presenter presenter;
 
     FragmentInteraction interaction;
+
+    public static PinsFragment newInstance(PDKBoard pdkBoard) {
+        Bundle args = new Bundle();
+        args.putString(BOARD_ID, pdkBoard.getUid());
+        PinsFragment fragment = new PinsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        boardId = getArguments().getString(BOARD_ID);
+    }
 
     @Nullable
     @Override
@@ -60,14 +78,6 @@ public class PinsFragment extends Fragment
         presenter.subscribe();
     }
 
-    public static PinsFragment newInstance(PDKBoard pdkBoard) {
-        Bundle args = new Bundle();
-        args.putString("UID", pdkBoard.getUid());
-        PinsFragment fragment = new PinsFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void setPresenter(Contract.Presenter presenter) {
         this.presenter = presenter;
@@ -81,6 +91,11 @@ public class PinsFragment extends Fragment
     @Override
     public void makeToast(String message) {
 
+    }
+
+    @Override
+    public String getBoardId() {
+        return boardId;
     }
 
     @Override
