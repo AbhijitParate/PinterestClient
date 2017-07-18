@@ -34,9 +34,6 @@ public class HomeActivity extends AppCompatActivity
 
     Contract.Presenter presenter;
 
-    FragmentTransaction ft;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
