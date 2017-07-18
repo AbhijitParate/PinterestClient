@@ -84,7 +84,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void switchToBoardView() {
-        BoardFragment boardFragment = new BoardFragment();
+        BoardFragment boardFragment = BoardFragment.newInstance();
         FragmentTransaction ft = manager.beginTransaction();
         ft.setCustomAnimations(R.animator.slide_enter, R.animator.slide_exit, R.animator.slide_enter_pop, R.animator.slide_exit_pop);
         ft.replace(R.id.fragment_container, boardFragment, "BoardFragment");
