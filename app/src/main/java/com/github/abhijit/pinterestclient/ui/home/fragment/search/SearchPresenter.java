@@ -1,10 +1,11 @@
-package com.github.abhijit.pinterestclient.ui.home.fragment.pins;
+package com.github.abhijit.pinterestclient.ui.home.fragment.search;
 
 import com.github.abhijit.pinterestclient.pinterest.ClientInjector;
 import com.github.abhijit.pinterestclient.pinterest.PinterestClient;
 import com.github.abhijit.pinterestclient.scheduler.SchedulerInjector;
 import com.github.abhijit.pinterestclient.scheduler.SchedulerProvider;
-import com.pinterest.android.pdk.PDKPin;
+import com.github.abhijit.pinterestclient.ui.home.fragment.post.Contract;
+import com.pinterest.android.pdk.PDKBoard;
 
 import java.util.List;
 
@@ -12,18 +13,18 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableMaybeObserver;
 
-public class PinsPresenter implements Contract.Presenter {
+public class SearchPresenter implements Contract.Presenter {
 
-    private static final String TAG = PinsPresenter.class.getSimpleName();
+    public static final String TAG = SearchPresenter.class.getSimpleName();
 
     private PinterestClient client;
     private SchedulerProvider schedulerProvider;
 
     private CompositeDisposable disposable;
 
-    private Contract.View view;
+    private com.github.abhijit.pinterestclient.ui.home.fragment.post.Contract.View view;
 
-    PinsPresenter(Contract.View view) {
+    public SearchPresenter(Contract.View view) {
         this.view = view;
         client = ClientInjector.getClient(view.getContext());
         schedulerProvider = SchedulerInjector.getScheduler();
@@ -35,24 +36,24 @@ public class PinsPresenter implements Contract.Presenter {
 
     @Override
     public void subscribe() {
-        getPins(view.getBoardId());
+        getBoard();
     }
 
-    private void getPins(String boardId) {
+    private void getBoard() {
         disposable.add(
-                client.getPinsForBoard(boardId)
+                client.getBoard()
                         .subscribeOn(schedulerProvider.io())
                         .observeOn(schedulerProvider.ui())
-                        .subscribeWith(new DisposableMaybeObserver<List<PDKPin>>(){
+                        .subscribeWith(new DisposableMaybeObserver<List<PDKBoard>>(){
 
                             @Override
-                            public void onSuccess(@NonNull List<PDKPin> pins) {
-                                view.showPins(pins);
+                            public void onSuccess(@NonNull List<PDKBoard> pdkBoards) {
+//                                view.showBoard(pdkBoards);
                             }
 
                             @Override
                             public void onError(@NonNull Throwable e) {
-                                view.makeToast("Error while retrieving pins");
+                                view.makeToast("Error : getBoard()");
                             }
 
                             @Override

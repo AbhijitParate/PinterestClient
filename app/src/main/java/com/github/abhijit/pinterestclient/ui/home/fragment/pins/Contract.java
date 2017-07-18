@@ -15,11 +15,10 @@ public interface Contract {
     interface View extends BaseView<Presenter> {
         String getBoardId();
 
-        void showLoginScreen();
         void showPins(List<PDKPin> pinList);
     }
 
     interface Presenter extends BasePresenter {
-        void onLogoutClick();
+
     }
 }

@@ -13,7 +13,6 @@ public interface Contract {
 
     interface Presenter extends BasePresenter {
         void onLoginClick();
-
         void onOauthResponse(int requestCode, int resultCode, Intent data);
     }
 }

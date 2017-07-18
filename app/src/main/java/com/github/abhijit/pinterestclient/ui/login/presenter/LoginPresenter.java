@@ -12,13 +12,9 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 
-/**
- * Created by abhij on 7/16/2017.
- */
-
 public class LoginPresenter implements Contract.Presenter {
 
-    public static final String TAG = LoginPresenter.class.getSimpleName();
+    private static final String TAG = LoginPresenter.class.getSimpleName();
 
     private PinterestClient client;
     private SchedulerProvider schedulerProvider;
@@ -58,7 +54,7 @@ public class LoginPresenter implements Contract.Presenter {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        view.makeToast(e.getMessage());
+//                        view.makeToast("");
                     }
                 })
         );

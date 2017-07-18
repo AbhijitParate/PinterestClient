@@ -1,23 +1,14 @@
 package com.github.abhijit.pinterestclient.ui.home.fragment.post;
 
-import android.util.Log;
-
 import com.github.abhijit.pinterestclient.pinterest.ClientInjector;
 import com.github.abhijit.pinterestclient.pinterest.PinterestClient;
 import com.github.abhijit.pinterestclient.scheduler.SchedulerInjector;
 import com.github.abhijit.pinterestclient.scheduler.SchedulerProvider;
-import com.pinterest.android.pdk.PDKBoard;
-
-import java.util.List;
+import com.pinterest.android.pdk.PDKPin;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableMaybeObserver;
-
-/**
- * Created by abhij on 7/16/2017.
- */
 
 public class PostPresenter implements Contract.Presenter {
 
@@ -42,24 +33,24 @@ public class PostPresenter implements Contract.Presenter {
 
     @Override
     public void subscribe() {
-        getBoard();
+        getPinDetails(view.getPinId());
     }
 
-    private void getBoard() {
+    private void getPinDetails(String pinId) {
         disposable.add(
-                client.getBoard()
+                client.getPinDetails(pinId)
                         .subscribeOn(schedulerProvider.io())
                         .observeOn(schedulerProvider.ui())
-                        .subscribeWith(new DisposableMaybeObserver<List<PDKBoard>>(){
+                        .subscribeWith(new DisposableMaybeObserver<PDKPin>(){
 
                             @Override
-                            public void onSuccess(@NonNull List<PDKBoard> pdkBoards) {
-                                view.showBoard(pdkBoards);
+                            public void onSuccess(@NonNull PDKPin pdkPin) {
+                                view.showPinDetails(pdkPin);
                             }
 
                             @Override
                             public void onError(@NonNull Throwable e) {
-                                view.makeToast("Error : getBoard()");
+                                view.makeToast("Error : getPinDetails()");
                             }
 
                             @Override
@@ -73,28 +64,5 @@ public class PostPresenter implements Contract.Presenter {
     @Override
     public void unsubscribe() {
         disposable.clear();
-    }
-
-    @Override
-    public void onLogoutClick() {
-        disposable.add(
-                client.logout()
-                        .subscribeOn(schedulerProvider.io())
-                        .observeOn(schedulerProvider.ui())
-                        .subscribeWith(new DisposableCompletableObserver(){
-
-                            @Override
-                            public void onComplete() {
-                                Log.d(TAG, "onComplete: ");
-                                view.showLoginScreen();
-                                view.makeToast("Logout complete");
-                            }
-
-                            @Override
-                            public void onError(@NonNull Throwable e) {
-                                view.makeToast(e.getMessage());
-                            }
-                        })
-        );
     }
 }

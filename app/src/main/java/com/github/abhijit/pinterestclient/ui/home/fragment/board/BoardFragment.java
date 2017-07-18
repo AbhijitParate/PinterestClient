@@ -33,11 +33,10 @@ public class BoardFragment extends Fragment
     @BindView(R.id.boardRecyclerView)
     RecyclerView mRecyclerView;
 
-    BoardAdapter adapter;
+    private Contract.Presenter presenter;
+    private FragmentInteraction interaction;
 
-    Contract.Presenter presenter;
-
-    FragmentInteraction interaction;
+    private BoardAdapter adapter;
 
     public static BoardFragment newInstance() {
 
@@ -61,7 +60,9 @@ public class BoardFragment extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
         interaction = (FragmentInteraction) getActivity();
+        getActivity().setTitle("Pinterest");
 
         if (presenter == null ){
             presenter = new BoardPresenter(this);
@@ -108,7 +109,6 @@ public class BoardFragment extends Fragment
 
     @Override
     public void onBoardClick(PDKBoard board) {
-        makeToast(board.getName());
         interaction.switchToPins(board);
     }
 }

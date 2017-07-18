@@ -12,10 +12,6 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableMaybeObserver;
 
-/**
- * Created by abhij on 7/16/2017.
- */
-
 public class BoardPresenter implements Contract.Presenter {
 
     public static final String TAG = BoardPresenter.class.getSimpleName();
@@ -56,7 +52,7 @@ public class BoardPresenter implements Contract.Presenter {
 
                             @Override
                             public void onError(@NonNull Throwable e) {
-                                view.makeToast("Error : getBoard()");
+                                view.makeToast("Error while retrieving board");
                             }
 
                             @Override
@@ -70,10 +66,5 @@ public class BoardPresenter implements Contract.Presenter {
     @Override
     public void unsubscribe() {
         disposable.clear();
-    }
-
-    @Override
-    public void onLogoutClick() {
-
     }
 }

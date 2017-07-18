@@ -58,7 +58,7 @@ public class HomePresenter implements Contract.Presenter {
 
                             @Override
                             public void onError(@NonNull Throwable e) {
-                                view.makeToast(e.getMessage());
+//                                view.makeToast(e.getMessage());
                             }
                         })
         );

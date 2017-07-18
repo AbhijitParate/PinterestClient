@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity
     public void onClick() {
         Log.d(TAG, "onClick: ");
         presenter.onLoginClick();
-        makeToast("Login click");
     }
 
     @Override

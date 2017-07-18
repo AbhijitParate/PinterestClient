@@ -25,6 +25,7 @@
         android:src="@drawable/pinterest_logo"
         android:layout_width="0dp"
         android:layout_height="100dp"
+        android:scaleType="centerInside"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"

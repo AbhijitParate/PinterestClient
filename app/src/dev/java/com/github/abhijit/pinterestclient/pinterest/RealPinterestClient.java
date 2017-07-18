@@ -119,7 +119,7 @@ public class RealPinterestClient implements PinterestClient {
         return Maybe.create(new MaybeOnSubscribe<List<PDKPin>>() {
             @Override
             public void subscribe(@NonNull final MaybeEmitter<List<PDKPin>> e) throws Exception {
-                pdkClient.getBoardPins(boardId, fields, new PDKCallback(){
+                pdkClient.getBoardPins(boardId, fields, new PDKCallback() {
                     @Override
                     public void onSuccess(PDKResponse response) {
                         super.onSuccess(response);
@@ -136,6 +136,33 @@ public class RealPinterestClient implements PinterestClient {
                 });
             }
         });
+    }
+
+    @Override
+    public Maybe<PDKPin> getPinDetails(final String pinId) {
+        final String fields = "id,link,creator,image,counts,note,created_at,board,metadata";
+
+        return Maybe.create(
+                new MaybeOnSubscribe<PDKPin>() {
+                    @Override
+                    public void subscribe(@NonNull final MaybeEmitter<PDKPin> e) throws Exception {
+                        pdkClient.getPin(pinId, fields, new PDKCallback(){
+                            @Override
+                            public void onSuccess(PDKResponse response) {
+                                super.onSuccess(response);
+                                e.onSuccess(response.getPin());
+                                e.onComplete();
+                            }
+
+                            @Override
+                            public void onFailure(PDKException exception) {
+                                super.onFailure(exception);
+                                e.onError(exception);
+                            }
+                        });
+                    }
+                }
+        );
     }
 
     @Override

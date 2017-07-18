@@ -17,5 +17,6 @@ public interface PinterestClient {
     Maybe<List<PDKBoard>> getBoard();
     Maybe<List<PDKPin>> getPins();
     Maybe<List<PDKPin>> getPinsForBoard(String boardId);
+    Maybe<PDKPin> getPinDetails(String pinId);
     Completable logout();
 }

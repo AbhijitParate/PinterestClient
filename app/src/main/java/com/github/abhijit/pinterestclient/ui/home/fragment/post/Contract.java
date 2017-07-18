@@ -2,18 +2,16 @@ package com.github.abhijit.pinterestclient.ui.home.fragment.post;
 
 import com.github.abhijit.pinterestclient.base.BasePresenter;
 import com.github.abhijit.pinterestclient.base.BaseView;
-import com.pinterest.android.pdk.PDKBoard;
-
-import java.util.List;
+import com.pinterest.android.pdk.PDKPin;
 
 public interface Contract {
 
     interface View extends BaseView<Presenter> {
-        void showLoginScreen();
-        void showBoard(List<PDKBoard> boardList);
+        void showPinDetails(PDKPin pin);
+        String getPinId();
     }
 
     interface Presenter extends BasePresenter {
-        void onLogoutClick();
+
     }
 }

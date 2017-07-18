@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.github.abhijit.pinterestclient.R;
 import com.github.abhijit.pinterestclient.ui.home.fragment.board.BoardFragment;
@@ -32,6 +33,9 @@ public class HomeActivity extends AppCompatActivity
     FragmentManager manager;
 
     Contract.Presenter presenter;
+
+    FragmentTransaction ft;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +86,9 @@ public class HomeActivity extends AppCompatActivity
     public void switchToBoardView() {
         BoardFragment boardFragment = new BoardFragment();
         FragmentTransaction ft = manager.beginTransaction();
-        ft.setCustomAnimations(R.animator.slide_in, R.animator.slide_out);
+        ft.setCustomAnimations(R.animator.slide_enter, R.animator.slide_exit, R.animator.slide_enter_pop, R.animator.slide_exit_pop);
         ft.replace(R.id.fragment_container, boardFragment, "BoardFragment");
-        ft.addToBackStack("BoardFragment");
+//        ft.addToBackStack("BoardFragment");
         ft.commit();
     }
 
@@ -92,7 +96,7 @@ public class HomeActivity extends AppCompatActivity
     public void switchToPinsView() {
         PinsFragment pinsFragment = new PinsFragment();
         FragmentTransaction ft = manager.beginTransaction();
-        ft.setCustomAnimations(R.animator.slide_in, R.animator.slide_out);
+        ft.setCustomAnimations(R.animator.slide_enter, R.animator.slide_exit, R.animator.slide_enter_pop, R.animator.slide_exit_pop);
         ft.replace(R.id.fragment_container, pinsFragment, "PinsFragment");
         ft.addToBackStack("PinsFragment");
         ft.commit();
@@ -102,7 +106,7 @@ public class HomeActivity extends AppCompatActivity
     public void switchToPins(PDKBoard pdkBoard) {
         PinsFragment pinsFragment = PinsFragment.newInstance(pdkBoard);
         FragmentTransaction ft = manager.beginTransaction();
-        ft.setCustomAnimations(R.animator.slide_in, R.animator.slide_out);
+        ft.setCustomAnimations(R.animator.slide_enter, R.animator.slide_exit, R.animator.slide_enter_pop, R.animator.slide_exit_pop);
         ft.replace(R.id.fragment_container, pinsFragment, "PinsFragment");
         ft.addToBackStack("PinsFragment");
         ft.commit();
@@ -112,7 +116,7 @@ public class HomeActivity extends AppCompatActivity
     public void switchToDescription(PDKPin pin) {
         PostFragment postFragment = PostFragment.newInstance(pin);
         FragmentTransaction ft = manager.beginTransaction();
-        ft.setCustomAnimations(R.animator.slide_in, R.animator.slide_out);
+        ft.setCustomAnimations(R.animator.slide_enter, R.animator.slide_exit, R.animator.slide_enter_pop, R.animator.slide_exit_pop);
         ft.replace(R.id.fragment_container, postFragment, "PostFragment");
         ft.addToBackStack("PostFragment");
         ft.commit();
@@ -125,12 +129,12 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void makeToast(@StringRes int strId) {
-
+        makeToast(getString(strId));
     }
 
     @Override
     public void makeToast(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
